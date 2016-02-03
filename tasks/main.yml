@@ -1,7 +1,43 @@
 - name: install sendmail
   yum:
-    name: sendmail
-  when: dork_development is not defined
+    name: "{{ item }}"
+  with_items:
+  - sendmail
+  - m4
+  - sendmail-cf
 
-- include: mailcatcher.yml
-  when: dork_development is defined
+- name: install nodejs yum repositories
+  shell: curl -sL https://rpm.nodesource.com/setup_5.x | bash -
+  args:
+    creates: /etc/yum.repos.d/nodesource-el.repo
+
+- name: add smart host to sendmail.mc
+  lineinfile:
+    line: define(`SMART_HOST', `127.0.0.1')dnl
+    dest: /etc/mail/sendmail.mc
+
+- name: compile sendmail.mc
+  shell: m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
+
+- name: install nodejs
+  yum:
+    name: "{{item}}"
+  with_items:
+  - nodejs
+
+- name: install catchmail and maildev
+  npm:
+    name: "{{ item }}"
+    global: yes
+  with_items:
+  - maildev
+
+- name: install supervisor configuration
+  template:
+    src: maildev.ini.j2
+    dest: /etc/supervisord.d/maildev.ini
+
+- name: reload supervisor
+  supervisorctl:
+    name: maildev
+    state: started
