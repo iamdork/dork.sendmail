@@ -1,0 +1,7 @@
+- name: install sendmail
+  yum:
+    name: sendmail
+  when: dork_development is not defined
+
+- include: mailcatcher.yml
+  when: dork_development is defined
