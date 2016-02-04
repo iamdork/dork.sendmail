@@ -5,6 +5,7 @@
   - sendmail
   - m4
   - sendmail-cf
+  - git
 
 - name: install nodejs yum repositories
   shell: curl -sL https://rpm.nodesource.com/setup_5.x | bash -
