@@ -1,1 +1,3 @@
-dependencies: []
+dependencies:
+# We need git to install Maildev.
+- dork.shell
