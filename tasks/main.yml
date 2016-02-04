@@ -23,14 +23,14 @@
   yum:
     name: "{{item}}"
   with_items:
-  - git+https://github.com/pmelab/MailDev.git
+  - nodejs
 
 - name: install catchmail and maildev
   npm:
     name: "{{ item }}"
     global: yes
   with_items:
-  - maildev
+  - git+https://github.com/pmelab/MailDev.git
 
 - name: install supervisor configuration
   template:
