@@ -23,7 +23,7 @@
   yum:
     name: "{{item}}"
   with_items:
-  - nodejs
+  - git+https://github.com/pmelab/MailDev.git
 
 - name: install catchmail and maildev
   npm:
