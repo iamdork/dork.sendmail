@@ -16,9 +16,11 @@
   lineinfile:
     line: define(`SMART_HOST', `127.0.0.1')dnl
     dest: /etc/mail/sendmail.mc
+  register: smart_host
 
 - name: compile sendmail.mc
   shell: m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
+  when: smart_host.changed
 
 - name: install nodejs
   yum:
@@ -38,7 +40,7 @@
     src: maildev.ini.j2
     dest: /etc/supervisord.d/maildev.ini
 
-- name: reload supervisor
+- name: start maildev service
   supervisorctl:
     name: maildev
-    state: started
+    state: present
