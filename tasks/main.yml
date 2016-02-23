@@ -28,7 +28,7 @@
   with_items:
   - nodejs
 
-- name: install catchmail and maildev
+- name: install maildev
   npm:
     name: "{{ item }}"
     global: yes

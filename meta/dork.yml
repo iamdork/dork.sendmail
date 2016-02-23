@@ -1,0 +1,3 @@
+services:
+  maildev: 80
+  smtp: 25
